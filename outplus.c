@@ -166,7 +166,7 @@ void outplus_dump_sector_text(OUTPLUS_SECTOR *sector, unsigned int depth)
 
         printf("\n");
 
-        if (current->child != NULL) outplus_dump_sector_text(current->child, ++depth); // Print child by recursion
+        if (current->child != NULL) outplus_dump_sector_text(current->child, (depth+1)); // Print child by recursion
 
         current = current->next;
     }//end :: while
@@ -213,7 +213,7 @@ void outplus_dump_sector_json(OUTPLUS_SECTOR *sector, unsigned int depth)
 
         }//end :: while
 
-        if (current->child != NULL) outplus_dump_sector_json(current->child, ++depth); // Print child by recursion
+        if (current->child != NULL) outplus_dump_sector_json(current->child, (depth+1)); // Print child by recursion
 
         printf("%s}", tabs);
         if (NULL != current->next) printf(",");
@@ -256,7 +256,7 @@ void outplus_dump_sector_csv(OUTPLUS_SECTOR *sector, unsigned int depth)
 
         }//end :: while
 
-        if (current->child != NULL) outplus_dump_sector_csv(current->child, ++depth); // Print child by recursion
+        if (current->child != NULL) outplus_dump_sector_csv(current->child, (depth+1)); // Print child by recursion
 
         current = current->next;
     }//end :: while
@@ -328,7 +328,7 @@ void outplus_dump_sector_html(OUTPLUS_SECTOR *sector, unsigned int depth)
 
         printf("\t</dl>\n");
 
-        if (current->child != NULL) outplus_dump_sector_html(current->child, ++depth); // Print child by recursion
+        if (current->child != NULL) outplus_dump_sector_html(current->child, (depth+1)); // Print child by recursion
 
         current = current->next;
     }//end :: while
@@ -391,7 +391,7 @@ void outplus_dump_sector_xml(OUTPLUS_SECTOR *sector, unsigned int depth)
         }//end :: while
 
 
-        if (current->child != NULL) outplus_dump_sector_xml(current->child, ++depth); // Print child by recursion
+        if (current->child != NULL) outplus_dump_sector_xml(current->child, (depth+1)); // Print child by recursion
 
         printf("%s</%s>\n", tabs, outplus_slug(current->title));
 
