@@ -1,9 +1,9 @@
 /*
-    pev - the PE file analyzer toolkit
-    
-    output.h - definitions for output results in differents outplus_formats
-    
-    Copyright (C) 2012 Fernando Mercês
+    liboutplus - C structured output library
+
+    outplus.h - definitions and prototypes for outplus
+
+    Copyright (C) 2012 Jan Seidl
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
