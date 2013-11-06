@@ -7,6 +7,7 @@ C library for structured output in many formats as text, csv, json, xml, html et
 How to use
 -------------
 *Declare your output holder*
+
     OUTPLUS_SECTOR *output = NULL;
 
 *Create a output block (sector) and append to global output*
