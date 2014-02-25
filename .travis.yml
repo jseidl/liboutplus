@@ -1,0 +1,19 @@
+language: c
+compiler:
+  - gcc
+  - clang
+
+branches:
+  only:
+    - master
+
+script:
+  - make clean all
+  - sudo make install
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
+    recipients:
+      - jseidl@wroot.org

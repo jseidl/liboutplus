@@ -275,7 +275,7 @@ void outplus_html_print_header()
 {
 
     printf(OUTPLUS_HTML_HEAD);
-    printf("\t<h1>PEV Output</h1>\n");
+    printf("\t<h1>%s</h1>\n", OUTPLUS_HTML_TITLE);
 
 }//end :: outplus_html_print_header
 
@@ -352,14 +352,14 @@ void outplus_dump_html(OUTPLUS_SECTOR *sector)
 void outplus_xml_print_header()
 {
 
-    printf(XML_HEAD);
+    printf(OUTPLUS_XML_HEAD);
 
 }//end :: outplus_xml_print_header
 
 void outplus_xml_print_footer()
 {
 
-    printf(XML_FOOTER);
+    printf(OUTPLUS_XML_FOOTER);
 
 }//end :: outplus_xml_print_footer
 

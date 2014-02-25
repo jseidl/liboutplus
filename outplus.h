@@ -24,15 +24,29 @@
 
 /* Macros */
 
+#ifndef OUTPLUS_KEY_MAX_LEN
 #define OUTPLUS_KEY_MAX_LEN 255
+
+#ifndef OUTPLUS_VALUE_MAX_LEN
 #define OUTPLUS_VALUE_MAX_LEN 1000
+
+#ifndef OUTPLUS_TITLE_MAX_LEN
 #define OUTPLUS_TITLE_MAX_LEN 1000
 
-#define OUTPLUS_HTML_HEAD "<!DOCTYPE HTML>\n<html>\n\t<head>\n\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n\t\t<title>OUTPLUS Output</title>\n\t\t<style type=\"text/css\">\n\t\t\tbody { font-family: Sans, Arial; }\n\t\t\th1 { padding-top: 11px; padding-bottom: 11px; padding-left: 70px; background: transparent url(data:image/jpeg;base64,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) scroll no-repeat center left; }\n\t\t\th2,h3,h4,h5 { clear: both; float: none; margin-bottom: 0px; }\n\t\t\tdl { margin-bottom: 20px; float: left; }\n\t\t\t.even { background-color: #EEE; }\n\t\t\tdt { padding: 2px 5px; float: left; margin-right: 0px; clear: left; width: 240px; font-weight: bold; margin-bottom: 5px; font-weight: bold; }\n\t\t\tdd { width: 360px; margin-left: 0px; padding: 2px 5px; float: left; }\n\t\t</style>\n\t</head>\n\t<body>\n"
-#define OUTPLUS_HTMLFOOTER "\t</body>\n</html>"
+#ifndef OUTPLUS_HTML_TITLE
+#define OUTPLUS_HTML_TITLE "Outplus Output"
 
-#define OUTPLUS_XMLHEAD "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n<output>\n"
-#define OUTPLUS_XMLFOOTER "</output>"
+#ifndef OUTPLUS_HTML_HEAD 
+#define OUTPLUS_HTML_HEAD "<!DOCTYPE HTML>\n<html>\n\t<head>\n\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n\t\t<title>" OUTPLUS_HTML_TITLE " Output</title>\n\t\t<style type=\"text/css\">\n\t\t\tbody { font-family: Sans, Arial; }\n\t\t\th1 { padding-top: 11px; padding-bottom: 11px; padding-left: 70px; }\n\t\t\th2,h3,h4,h5 { clear: both; float: none; margin-bottom: 0px; }\n\t\t\tdl { margin-bottom: 20px; float: left; }\n\t\t\t.even { background-color: #EEE; }\n\t\t\tdt { padding: 2px 5px; float: left; margin-right: 0px; clear: left; width: 240px; font-weight: bold; margin-bottom: 5px; font-weight: bold; }\n\t\t\tdd { width: 360px; margin-left: 0px; padding: 2px 5px; float: left; }\n\t\t</style>\n\t</head>\n\t<body>\n"
+
+#ifndef OUTPLUS_HTML_FOOTER
+#define OUTPLUS_HTML_FOOTER "\t</body>\n</html>"
+
+#ifndef OUTPLUS_XML_HEAD
+#define OUTPLUS_XML_HEAD "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n<output>\n"
+
+#ifndef OUTPLUS_XML_FOOTER
+#define OUTPLUS_XML_FOOTER "</output>"
 
 /* structs, enums, typedefs etc... */
 
