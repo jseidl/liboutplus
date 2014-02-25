@@ -3,7 +3,7 @@
 
     outplus.c - main library code
 
-    Copyright (C) 2012 Jan Seidl
+    Copyright (C) 2012 - 2014 Jan Seidl
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -338,7 +338,6 @@ void outplus_dump_sector_html(OUTPLUS_SECTOR *sector, unsigned int depth)
 
 void outplus_dump_html(OUTPLUS_SECTOR *sector)
 {
-
 
     outplus_html_print_header();
 
