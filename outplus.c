@@ -50,52 +50,50 @@ OUTPLUS_SECTOR * outplus_get_last_sector(OUTPLUS_SECTOR *sector)
 
 }//end :: outplus_get_last_sector
 
-int outplus_add_child_sector(char *name, OUTPLUS_SECTOR * new_sector, OUTPLUS_SECTOR * parent_sector)
+int outplus_add_child_sector(char *name, OUTPLUS_SECTOR ** new_sector, OUTPLUS_SECTOR ** parent_sector)
 {
 
     int rv = OUTPLUS_E_OK;
 
-    rv = outplus_add_sector(name, new_sector, (OUTPLUS_SECTOR *) &(parent_sector->child));
+    rv = outplus_add_sector(name, new_sector, (OUTPLUS_SECTOR **) &((*parent_sector)->child));
     if (rv != OUTPLUS_E_OK) return rv;
 
-    new_sector->parent = (OUTPLUS_SECTOR_PTR) parent_sector;
+    (*new_sector)->parent = (OUTPLUS_SECTOR_PTR) *parent_sector;
 
     return rv;
 
 }//end :: outplus_add_child_sector
 
-int outplus_add_sector(char *name, OUTPLUS_SECTOR * new_sector, OUTPLUS_SECTOR * sector)
+int outplus_add_sector(char *name, OUTPLUS_SECTOR ** new_sector, OUTPLUS_SECTOR ** sector)
 {
 
     int rv = OUTPLUS_E_OK;
 
-    new_sector = (OUTPLUS_SECTOR *) malloc(sizeof(OUTPLUS_SECTOR));
+    *new_sector = (OUTPLUS_SECTOR *) malloc(sizeof(OUTPLUS_SECTOR));
 
-    if (new_sector == NULL) return OUTPLUS_E_ALLOCATION_FAILURE;
+    if (*new_sector == NULL) return OUTPLUS_E_ALLOCATION_FAILURE;
 
-    strncpy(new_sector->title, name, OUTPLUS_TITLE_MAX_LEN);
+    strncpy((*new_sector)->title, name, OUTPLUS_TITLE_MAX_LEN);
 
-    new_sector->first_line = NULL;
-    new_sector->child = NULL;
-    new_sector->parent = NULL;
+    (*new_sector)->first_line = NULL;
+    (*new_sector)->child = NULL;
+    (*new_sector)->parent = NULL;
+    (*new_sector)->prev = NULL;
+    (*new_sector)->next = NULL;
 
-    OUTPLUS_SECTOR *lastOutplusSector;
-    lastOutplusSector =  (OUTPLUS_SECTOR *) outplus_get_last_sector(sector);
+    OUTPLUS_SECTOR *last_sector;
+    last_sector =  (OUTPLUS_SECTOR *) outplus_get_last_sector(*sector);
 
     // First sector?
-    if (NULL != lastOutplusSector)
+    if (NULL != last_sector)
     {
-        OUTPLUS_SECTOR *last = (OUTPLUS_SECTOR *) lastOutplusSector->next;
-        lastOutplusSector->next = (OUTPLUS_SECTOR_PTR) new_sector;
-        if (last != NULL) last->prev = (OUTPLUS_SECTOR_PTR) new_sector;
-        new_sector->prev = (OUTPLUS_SECTOR_PTR) lastOutplusSector;
+        last_sector->next = (OUTPLUS_SECTOR_PTR) *new_sector;
+        (*new_sector)->prev = (OUTPLUS_SECTOR_PTR) last_sector;
     } else {
-        new_sector->prev = NULL;
-        if (NULL == sector) {
-            sector = new_sector;
+        if (NULL == *sector) {
+            *sector = *new_sector;
         }//end :: if
     }//end :: if
-    new_sector->next = NULL;
 
     return rv;
         
@@ -104,7 +102,7 @@ int outplus_add_sector(char *name, OUTPLUS_SECTOR * new_sector, OUTPLUS_SECTOR *
 OUTPLUS_LINE * outplus_get_last_sector_line(OUTPLUS_SECTOR *sector)
 {
 
-    OUTPLUS_LINE *current_line = sector->first_line;
+    OUTPLUS_LINE *current_line = (OUTPLUS_LINE *) sector->first_line;
 
     while (current_line != NULL)
     {
@@ -131,7 +129,7 @@ int outplus_add_line(char *key, char *value, OUTPLUS_SECTOR *sector)
     strncpy(line->value, value, OUTPLUS_VALUE_MAX_LEN);
 
     OUTPLUS_LINE *last_outplus_line;
-    last_outplus_line = (OUTPLUS_LINE *) outplus_get_last_sector_line(sector);
+    last_outplus_line = outplus_get_last_sector_line(sector);
 
     if (NULL != last_outplus_line)
     {
@@ -156,7 +154,7 @@ int outplus_dump_sector_text(OUTPLUS_SECTOR *sector, unsigned int depth)
 
     int rv = OUTPLUS_E_OK;
     char *tabs = NULL;
-    rv = outplus_create_tabs(tabs, depth);
+    rv = outplus_create_tabs(&tabs, depth);
 
     if (rv != OUTPLUS_E_OK) return rv;
 
@@ -204,7 +202,7 @@ int outplus_dump_sector_json(OUTPLUS_SECTOR *sector, unsigned int depth)
 
     int rv = OUTPLUS_E_OK;
     char *tabs = NULL;
-    rv = outplus_create_tabs(tabs, (depth+1));
+    rv = outplus_create_tabs(&tabs, (depth+1));
 
     if (rv != OUTPLUS_E_OK) return rv;
 
@@ -406,7 +404,7 @@ int outplus_dump_sector_xml(OUTPLUS_SECTOR *sector, unsigned int depth)
 
     int rv = OUTPLUS_E_OK;
     char *tabs = NULL;
-    rv = outplus_create_tabs(tabs, (depth+1));
+    rv = outplus_create_tabs(&tabs, (depth+1));
 
     if (rv != OUTPLUS_E_OK) return rv;
 
@@ -547,23 +545,23 @@ void outplus_free_output(OUTPLUS_SECTOR *sector)
 
 }//end :: outplus_free_output
 
-int outplus_create_tabs(char *tabs, unsigned int count)
+int outplus_create_tabs(char ** tabs, unsigned int count)
 {
 
     unsigned int i;
 
     if (count > 0)
     {
-        tabs = malloc(sizeof(char)*count);
+        *tabs = malloc(sizeof(char)*(count+1));
     } else {
-        tabs = malloc(sizeof(char));
+        *tabs = malloc(sizeof(char));
     }
 
-    if (tabs == NULL) return OUTPLUS_E_ALLOCATION_FAILURE;
+    if (*tabs == NULL) return OUTPLUS_E_ALLOCATION_FAILURE;
 
-    tabs[0] = '\0';
+    (*tabs)[0] = '\0';
 
-    for (i=0; i<count; i++) tabs[i] = '\t';
+    for (i=0; i<count; i++) (*tabs)[i] = '\t';
 
     return OUTPLUS_E_OK;
 

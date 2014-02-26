@@ -106,8 +106,8 @@ typedef struct
 
 // Core Functions
 OUTPLUS_SECTOR * outplus_get_last_sector(OUTPLUS_SECTOR *sector);
-int outplus_add_sector(char *name, OUTPLUS_SECTOR *new_sector, OUTPLUS_SECTOR *sector);
-int outplus_add_child_sector(char *name, OUTPLUS_SECTOR *new_sector, OUTPLUS_SECTOR *parent_sector);
+int outplus_add_sector(char *name, OUTPLUS_SECTOR ** new_sector, OUTPLUS_SECTOR ** sector);
+int outplus_add_child_sector(char *name, OUTPLUS_SECTOR ** new_sector, OUTPLUS_SECTOR ** parent_sector);
 OUTPLUS_LINE * outplus_get_last_sector_line(OUTPLUS_SECTOR *sector);
 int outplus_add_line(char *key, char *value, OUTPLUS_SECTOR *sector);
 
@@ -130,7 +130,7 @@ int outplus_dump_sector_json(OUTPLUS_SECTOR *sector, unsigned int depth);
 void outplus_free_output(OUTPLUS_SECTOR *sector);
 int outplus_parse_format(const char *optarg);
 char *outplus_slug(char *string);
-int outplus_create_tabs(char *tabs, unsigned int count);
+int outplus_create_tabs(char ** tabs, unsigned int count);
 
 // Parser functions
 void outplus_html_print_header();
