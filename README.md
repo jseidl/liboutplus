@@ -16,8 +16,9 @@ OUTPLUS_SECTOR *output = NULL;
 
 Create a output block (sector) and append to global output
 
+```c
 OUTPLUS_SECTOR *outSectorSections = outplus_add_sector("Samples", &output);
-
+```
 
 Add text to it!
 
