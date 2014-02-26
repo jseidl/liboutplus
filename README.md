@@ -6,52 +6,84 @@ C library for structured output in many formats as text, csv, json, xml, html et
 [![Build Status](https://travis-ci.org/jseidl/liboutplus.png)](https://travis-ci.org/jseidl/liboutplus)
 
 
+Compinling
+-------------
+
+Building the lib
+
+```
+gcc -c outplus.c -o outplus.o
+```
+
+Compiling your code with outplus
+
+```
+ gcc -Wall -o your_program outplus.o your_program.c -I<path to lib outplus>
+```
+
+
 How to use
 -------------
-Declare your output holder
+
+Simple example:
 
 ```c
-OUTPLUS_SECTOR *output = NULL;
+#include <stdio.h>
+#include "outplus.c"
+
+int rv = OUTPLUS_E_OK; // our return values
+OUTPLUS_SECTOR *output = NULL; // Declare your global output sector
+
+// Create a output sector and append to global output. Declare and initialize the sector
+
+OUTPLUS_SECTOR *output1 = NULL;
+rv = outplus_add_sector("Sector One", &output1, &output);
+if (rv != OUTPLUS_E_OK) return 1; // outplus functions must return OUTPLUS_E_OK or they failed
+
+// Add text to it!
+
+outplus_add_line("Key One Sector One", "Value One Sector One", output1);
+if (rv != OUTPLUS_E_OK) return 1;
+
+// Add a second sector
+
+OUTPLUS_SECTOR *output2 = NULL;
+rv = outplus_add_sector("Sector Two", &output2, &output);
+if (rv != OUTPLUS_E_OK) return 1; 
+
+// Add text to the second sector
+
+outplus_add_line("Key One Sector Two", "Value One Sector Two", output2);
+if (rv != OUTPLUS_E_OK) return 1;
+
+
+// You can also add child sector to sector two
+
+OUTPLUS_SECTOR *output2c = NULL;
+rv = outplus_add_child_sector("Sector Two One", &output2c, &output2);
+if (rv != OUTPLUS_E_OK) return 1;
+
+// Add lines to child sector
+rv = outplus_add_line("Key One Sector Two Sub-Sector One", "Value One Sector Two Sub-Sector One", output2c);
+if (rv != OUTPLUS_E_OK) return 1;
+
+// Finally use the appropriate functions to dump your output into the desired format
+
+/* Directly calling a format dump
+
+    void outplus_dump_xml(output);
+    void outplus_dump_text(output);
+    void outplus_dump_csv(output);
+    void outplus_dump_html(output);
+    void outplus_dump_json(output);
+
+*/
+
+// if using above, remember to call outplus_free(output);
+
+outplus_parse_format('xml')
+outplus_dump(output); // this will call outplus_free(output) for you
 ```
-
-Create a output block (sector) and append to global output
-
-```c
-OUTPLUS_SECTOR *outSectorSections = outplus_add_sector("Samples", &output);
-```
-
-Add text to it!
-
-```c
-char s[OUTPLUS_VALUE_MAX_LEN] = "Sample value"; // example text
-outplus_add_line("Sample item", s, outSectorSections);
-```
-
-
-You can also add child blocks (sectors)
-
-```c
-OUTPLUS_SECTOR *outSubSectSection = outplus_add_child_sector("Section", &outSectorSections);
-```
-
-And add more lines to it
-
-```c
-char s[OUTPLUS_VALUE_MAX_LEN] = "Another sample value"; // example text
-outplus_add_line("Another sample item", s, outSubSectSection);
-```
-
-
-Finally use the appropriate functions to dump your output into the desired format
-
-```c
-void outplus_dump_xml(OUTPLUS_SECTOR *sector);
-void outplus_dump_text(OUTPLUS_SECTOR *sector);
-void outplus_dump_csv(OUTPLUS_SECTOR *sector);
-void outplus_dump_html(OUTPLUS_SECTOR *sector);
-void outplus_dump_json(OUTPLUS_SECTOR *sector);
-```
-
 
 ### TODO ###
 * Add file output (printf->outplus_output)
