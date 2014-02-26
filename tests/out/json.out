@@ -1,0 +1,19 @@
+{
+	"sector_one":
+	{
+		"key_one_one": "Value One-One",
+		"key_one_two": "Value One-Two"
+	},
+	"sector_two":
+	{
+		"key_two_one": "Value Two-One"
+		"sector_two_one":
+		{
+			"key_two_one_one": "Value Two-One-One"
+		}
+	},
+	"sector_three":
+	{
+		"key_three": "Value Three"
+	}
+}

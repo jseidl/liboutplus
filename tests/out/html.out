@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Outplus Output Output</title>
+		<style type="text/css">
+			body { font-family: Sans, Arial; }
+			h1 { padding-top: 11px; padding-bottom: 11px; padding-left: 70px; }
+			h2,h3,h4,h5 { clear: both; float: none; margin-bottom: 0px; }
+			dl { margin-bottom: 20px; float: left; }
+			.even { background-color: #EEE; }
+			dt { padding: 2px 5px; float: left; margin-right: 0px; clear: left; width: 240px; font-weight: bold; margin-bottom: 5px; font-weight: bold; }
+			dd { width: 360px; margin-left: 0px; padding: 2px 5px; float: left; }
+		</style>
+	</head>
+	<body>
+	<h1>Outplus Output</h1>
+	<h2>Sector One</h2>
+	<dl>
+		<dt class="even">Key One-One</dt>
+		<dd class="even">Value One-One</dd>
+		<dt class="odd">Key One-Two</dt>
+		<dd class="odd">Value One-Two</dd>
+	</dl>
+	<h2>Sector Two</h2>
+	<dl>
+		<dt class="even">Key Two-One</dt>
+		<dd class="even">Value Two-One</dd>
+	</dl>
+	<h3>Sector Two One</h3>
+	<dl>
+		<dt class="even">Key Two-One-One</dt>
+		<dd class="even">Value Two-One-One</dd>
+	</dl>
+	<h2>Sector Three</h2>
+	<dl>
+		<dt class="even">Key Three</dt>
+		<dd class="even">Value Three</dd>
+	</dl>
+	</body>
+</html>

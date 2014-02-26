@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<output>
+	<sector_one title="Sector One">
+		<key_one_one>Value One-One</key_one_one>
+		<key_one_two>Value One-Two</key_one_two>
+	</sector_one>
+	<sector_two title="Sector Two">
+		<key_two_one>Value Two-One</key_two_one>
+		<sector_two_one title="Sector Two One">
+			<key_two_one_one>Value Two-One-One</key_two_one_one>
+		</sector_two_one>
+	</sector_two>
+	<sector_three title="Sector Three">
+		<key_three>Value Three</key_three>
+	</sector_three>
+</output>
