@@ -3,7 +3,7 @@ liboutplus
 
 C library for structured output in many formats as text, csv, json, xml, html etc 
 
-[![Build Status](https://travis-ci.org/liboutplus/liboutplus.png)](https://travis-ci.org/jseidl/liboutplus)
+[![Build Status](https://travis-ci.org/jseidl/liboutplus.png)](https://travis-ci.org/jseidl/liboutplus)
 
 
 How to use
