@@ -93,6 +93,101 @@ int main(int argc, char *argv[])
 }//end :: main
 ```
 
+Output Examples
+----------
+
+**TEXT (default)**
+```
+Sector One
+    Key One Sector One: Value One Sector One
+
+Sector Two
+    Key One Sector Two: Value One Sector Two
+
+    Sector Two One
+        Key One Sector Two Sub-Sector One: Value One Sector Two Sub-Sector One
+
+```
+
+**XML**
+```xml
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<output>
+    <sector_one title="Sector One">
+        <key_one_sector_one>Value One Sector One</key_one_sector_one>
+    </sector_one>
+    <sector_two title="Sector Two">
+        <key_one_sector_two>Value One Sector Two</key_one_sector_two>
+        <sector_two_one title="Sector Two One">
+            <key_one_sector_two_sub_sector_one>Value One Sector Two Sub-Sector One</key_one_sector_two_sub_sector_one>
+        </sector_two_one>
+    </sector_two>
+</output>
+```
+
+**JSON**
+```json
+{
+    "sector_one":
+    {
+        "key_one_sector_one": "Value One Sector One"
+    },
+    "sector_two":
+    {
+        "key_one_sector_two": "Value One Sector Two"
+        "sector_two_one":
+        {
+            "key_one_sector_two_sub_sector_one": "Value One Sector Two Sub-Sector One"
+        }
+    }
+}
+```
+
+**CSV**
+```csv
+"Sector One","Key One Sector One","Value One Sector One"
+"Sector Two","Key One Sector Two","Value One Sector Two"
+"Sector Two One","Key One Sector Two Sub-Sector One","Value One Sector Two Sub-Sector One"
+```
+
+**HTML**
+```html
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Outplus Output Output</title>
+        <style type="text/css">
+            body { font-family: Sans, Arial; }
+            h1 { padding-top: 11px; padding-bottom: 11px; padding-left: 70px; }
+            h2,h3,h4,h5 { clear: both; float: none; margin-bottom: 0px; }
+            dl { margin-bottom: 20px; float: left; }
+            .even { background-color: #EEE; }
+            dt { padding: 2px 5px; float: left; margin-right: 0px; clear: left; width: 240px; font-weight: bold; margin-bottom: 5px; font-weight: bold; }
+            dd { width: 360px; margin-left: 0px; padding: 2px 5px; float: left; }
+        </style>
+    </head>
+    <body>
+    <h1>Outplus Output</h1>
+    <h2>Sector One</h2>
+    <dl>
+        <dt class="even">Key One Sector One</dt>
+        <dd class="even">Value One Sector One</dd>
+    </dl>
+    <h2>Sector Two</h2>
+    <dl>
+        <dt class="even">Key One Sector Two</dt>
+        <dd class="even">Value One Sector Two</dd>
+    </dl>
+    <h3>Sector Two One</h3>
+    <dl>
+        <dt class="even">Key One Sector Two Sub-Sector One</dt>
+        <dd class="even">Value One Sector Two Sub-Sector One</dd>
+    </dl>
+    </body>
+</html>
+```
+
 ### TODO ###
 * Add file output (printf->outplus_output)
 * Add some more examples here
