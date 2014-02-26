@@ -574,9 +574,14 @@ char * outplus_slug(char *string)
     cp = string;
 
     while (*cp) {
+        if (*cp >= 65 && *cp <= 90) *cp = *cp+32;
+        if (*cp < 97 || *cp > 122) *cp = '_';
+        /*
         if (64 < *cp && 91 > *cp) *cp = *cp+32;
-        if (32 == *cp) *cp = '_';
+        if (64 < *cp && 91 > *cp) *cp = *cp+32;
+        if (32 == *cp || 45 == *cp) *cp = '_';
         if ('(' == *cp || ')' == *cp || '/' == *cp || '\\' == *cp || '.' == *cp) *cp = '_';
+        */
 
         cp++;
     }//end :: while
