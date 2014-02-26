@@ -34,8 +34,8 @@ done
 
 if [ $FAILED -eq 0 ]; then
     echo "All tests OK"
+    exit 0;
 else 
     echo "${FAILED} tests failed"
+    exit 1;
 fi
-
-exit 0;
