@@ -71,41 +71,45 @@ OUTPLUS_FORMAT_E outplus_format;
 typedef enum {
     OUTPLUS_E_OK = 0,
     OUTPLUS_E_ALLOCATION_FAILURE = -15,
-    OUTPLUS_E_INVALID_FORMAT = 2
+    OUTPLUS_E_INVALID_FORMAT = 2,
+    OUTPLUS_E_SECTOR_EMPTY = 3
 } OUTPLUS_ERROR;
 
-typedef struct _OUTPLUS_SECTOR
-{
+typedef struct OUTPLUS_LINE *OUTPLUS_LINE_PTR;
 
-    char title[OUTPLUS_TITLE_MAX_LEN];
-
-    struct _OUTPLUS_LINE *first_line;
-
-    struct _OUTPLUS_SECTOR *parent;
-    struct _OUTPLUS_SECTOR *child;
-
-    struct _OUTPLUS_SECTOR *next;
-    struct _OUTPLUS_SECTOR *prev;
-
-} OUTPLUS_SECTOR;//end :: struct :: _OUTPLUS_SECTOR
-
-typedef struct _OUTPLUS_LINE
+typedef struct 
 {
     char key[OUTPLUS_KEY_MAX_LEN];
     char value[OUTPLUS_VALUE_MAX_LEN];
 
-    struct _OUTPLUS_LINE *next;
-    struct _OUTPLUS_LINE *prev;
+    OUTPLUS_LINE_PTR next;
+    OUTPLUS_LINE_PTR prev;
 } OUTPLUS_LINE;//end :: struct :: _OUTPLUS_LINE
 
+typedef struct OUTPLUS_SECTOR *OUTPLUS_SECTOR_PTR;
+
+typedef struct 
+{
+
+    char title[OUTPLUS_TITLE_MAX_LEN];
+
+    OUTPLUS_LINE *first_line;
+
+    OUTPLUS_SECTOR_PTR parent;
+    OUTPLUS_SECTOR_PTR child;
+
+    OUTPLUS_SECTOR_PTR next;
+    OUTPLUS_SECTOR_PTR prev;
+
+} OUTPLUS_SECTOR;//end :: struct :: _OUTPLUS_SECTOR
 /* Prototypes */
 
 // Core Functions
 OUTPLUS_SECTOR * outplus_get_last_sector(OUTPLUS_SECTOR *sector);
-OUTPLUS_SECTOR * outplus_add_sector(char *name, OUTPLUS_SECTOR ** current_OUTPLUS_SECTOR);
-OUTPLUS_SECTOR * outplus_add_child_sector(char *name, OUTPLUS_SECTOR ** current_OUTPLUS_SECTOR);
+int outplus_add_sector(char *name, OUTPLUS_SECTOR *new_sector, OUTPLUS_SECTOR *sector);
+int outplus_add_child_sector(char *name, OUTPLUS_SECTOR *new_sector, OUTPLUS_SECTOR *parent_sector);
 OUTPLUS_LINE * outplus_get_last_sector_line(OUTPLUS_SECTOR *sector);
-OUTPLUS_LINE * outplus_add_line(char *key, char *value, OUTPLUS_SECTOR *sector);
+int outplus_add_line(char *key, char *value, OUTPLUS_SECTOR *sector);
 
 // Output Parsers
 int outplus_dump_text(OUTPLUS_SECTOR *sector);
