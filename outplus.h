@@ -26,27 +26,35 @@
 
 #ifndef OUTPLUS_KEY_MAX_LEN
 #define OUTPLUS_KEY_MAX_LEN 255
+#endif
 
 #ifndef OUTPLUS_VALUE_MAX_LEN
 #define OUTPLUS_VALUE_MAX_LEN 1000
+#endif
 
 #ifndef OUTPLUS_TITLE_MAX_LEN
 #define OUTPLUS_TITLE_MAX_LEN 1000
+#endif
 
 #ifndef OUTPLUS_HTML_TITLE
 #define OUTPLUS_HTML_TITLE "Outplus Output"
+#endif
 
 #ifndef OUTPLUS_HTML_HEAD 
 #define OUTPLUS_HTML_HEAD "<!DOCTYPE HTML>\n<html>\n\t<head>\n\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n\t\t<title>" OUTPLUS_HTML_TITLE " Output</title>\n\t\t<style type=\"text/css\">\n\t\t\tbody { font-family: Sans, Arial; }\n\t\t\th1 { padding-top: 11px; padding-bottom: 11px; padding-left: 70px; }\n\t\t\th2,h3,h4,h5 { clear: both; float: none; margin-bottom: 0px; }\n\t\t\tdl { margin-bottom: 20px; float: left; }\n\t\t\t.even { background-color: #EEE; }\n\t\t\tdt { padding: 2px 5px; float: left; margin-right: 0px; clear: left; width: 240px; font-weight: bold; margin-bottom: 5px; font-weight: bold; }\n\t\t\tdd { width: 360px; margin-left: 0px; padding: 2px 5px; float: left; }\n\t\t</style>\n\t</head>\n\t<body>\n"
+#endif
 
 #ifndef OUTPLUS_HTML_FOOTER
 #define OUTPLUS_HTML_FOOTER "\t</body>\n</html>"
+#endif
 
 #ifndef OUTPLUS_XML_HEAD
 #define OUTPLUS_XML_HEAD "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n<output>\n"
+#endif
 
 #ifndef OUTPLUS_XML_FOOTER
 #define OUTPLUS_XML_FOOTER "</output>"
+#endif
 
 /* structs, enums, typedefs etc... */
 
@@ -59,6 +67,12 @@ typedef enum {
 } OUTPLUS_FORMAT_E;
 
 OUTPLUS_FORMAT_E outplus_format;
+
+typedef enum {
+    OUTPLUS_E_OK = 0,
+    OUTPLUS_E_ALLOCATION_FAILURE = -15,
+    OUTPLUS_E_INVALID_FORMAT = 2
+} OUTPLUS_ERROR;
 
 typedef struct _OUTPLUS_SECTOR
 {
@@ -85,37 +99,39 @@ typedef struct _OUTPLUS_LINE
 } OUTPLUS_LINE;//end :: struct :: _OUTPLUS_LINE
 
 /* Prototypes */
+
 // Core Functions
 OUTPLUS_SECTOR * outplus_get_last_sector(OUTPLUS_SECTOR *sector);
 OUTPLUS_SECTOR * outplus_add_sector(char *name, OUTPLUS_SECTOR ** current_OUTPLUS_SECTOR);
 OUTPLUS_SECTOR * outplus_add_child_sector(char *name, OUTPLUS_SECTOR ** current_OUTPLUS_SECTOR);
 OUTPLUS_LINE * outplus_get_last_sector_line(OUTPLUS_SECTOR *sector);
-OUTPLUS_LINE outplus_add_line(char *key, char *value, OUTPLUS_SECTOR *sector);
+OUTPLUS_LINE * outplus_add_line(char *key, char *value, OUTPLUS_SECTOR *sector);
 
 // Output Parsers
-void outplus_dump_text(OUTPLUS_SECTOR *sector);
-void outplus_dump_html(OUTPLUS_SECTOR *sector);
-void outplus_dump_xml(OUTPLUS_SECTOR *sector);
-void outplus_dump_csv(OUTPLUS_SECTOR *sector);
-void outplus_dump_json(OUTPLUS_SECTOR *sector);
+int outplus_dump_text(OUTPLUS_SECTOR *sector);
+int outplus_dump_html(OUTPLUS_SECTOR *sector);
+int outplus_dump_xml(OUTPLUS_SECTOR *sector);
+int outplus_dump_csv(OUTPLUS_SECTOR *sector);
+int outplus_dump_json(OUTPLUS_SECTOR *sector);
 
-void outplus_dump(OUTPLUS_SECTOR *sector);
+int outplus_dump(OUTPLUS_SECTOR *sector);
 
-void outplus_dump_sector_xml(OUTPLUS_SECTOR *sector, unsigned int depth);
-void outplus_dump_sector_text(OUTPLUS_SECTOR *sector, unsigned int depth);
-void outplus_dump_sector_csv(OUTPLUS_SECTOR *sector, unsigned int depth);
-void outplus_dump_sector_html(OUTPLUS_SECTOR *sector, unsigned int depth);
-void outplus_dump_sector_json(OUTPLUS_SECTOR *sector, unsigned int depth);
+int outplus_dump_sector_xml(OUTPLUS_SECTOR *sector, unsigned int depth);
+int outplus_dump_sector_text(OUTPLUS_SECTOR *sector, unsigned int depth);
+int outplus_dump_sector_csv(OUTPLUS_SECTOR *sector, unsigned int depth);
+int outplus_dump_sector_html(OUTPLUS_SECTOR *sector, unsigned int depth);
+int outplus_dump_sector_json(OUTPLUS_SECTOR *sector, unsigned int depth);
 
 // Util Functions
 void outplus_free_output(OUTPLUS_SECTOR *sector);
-void outplus_parse_format(const char *optarg);
+int outplus_parse_format(const char *optarg);
 char *outplus_slug(char *string);
-char *outplus_create_tabs(unsigned int count);
+int outplus_create_tabs(char *tabs, unsigned int count);
 
 // Parser functions
 void outplus_html_print_header();
 void outplus_html_print_footer();
 void outplus_xml_print_header();
 void outplus_xml_print_footer();
+
 #endif

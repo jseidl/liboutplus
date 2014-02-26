@@ -67,7 +67,9 @@ OUTPLUS_SECTOR * outplus_add_sector(char *name, OUTPLUS_SECTOR ** currentOutplus
 
     OUTPLUS_SECTOR *sector;
 
-    sector = (OUTPLUS_SECTOR *)xmalloc(sizeof(OUTPLUS_SECTOR));
+    sector = (OUTPLUS_SECTOR *) malloc(sizeof(OUTPLUS_SECTOR));
+
+    if (sector == NULL) return OUTPLUS_E_ALLOCATION_FAILURE;
 
     strncpy(sector->title, name, OUTPLUS_TITLE_MAX_LEN);
 
@@ -114,11 +116,13 @@ OUTPLUS_LINE * outplus_get_last_sector_line(OUTPLUS_SECTOR *sector)
 
 }//end :: outplus_get_last_sector_line
 
-OUTPLUS_LINE outplus_add_line(char *key, char *value, OUTPLUS_SECTOR *sector)
+OUTPLUS_LINE * outplus_add_line(char *key, char *value, OUTPLUS_SECTOR *sector)
 {
 
     OUTPLUS_LINE *line;
-    line = (OUTPLUS_LINE *)xmalloc(sizeof(OUTPLUS_LINE));
+    line = (OUTPLUS_LINE *) malloc(sizeof(OUTPLUS_LINE));
+
+    if (line == NULL) return OUTPLUS_E_ALLOCATION_FAILURE;
 
 
     strncpy(line->key, key, OUTPLUS_KEY_MAX_LEN);
@@ -137,18 +141,22 @@ OUTPLUS_LINE outplus_add_line(char *key, char *value, OUTPLUS_SECTOR *sector)
 
     line->next = NULL;
 
-    return *line;
+    return line;
 
 }//end :: outplus_add_line
 
 //************** TEXT OUTPUT
 
-void outplus_dump_sector_text(OUTPLUS_SECTOR *sector, unsigned int depth) 
+int outplus_dump_sector_text(OUTPLUS_SECTOR *sector, unsigned int depth) 
 {
 
     OUTPLUS_SECTOR *current = sector;
 
-    char *tabs = outplus_create_tabs(depth);
+    int rv = OUTPLUS_E_OK;
+    char *tabs = NULL;
+    rv = outplus_create_tabs(tabs, depth);
+
+    if (rv != OUTPLUS_E_OK) return rv;
 
     while (current != NULL)
     {
@@ -173,23 +181,30 @@ void outplus_dump_sector_text(OUTPLUS_SECTOR *sector, unsigned int depth)
 
     free(tabs);
 
+    return OUTPLUS_E_OK;
+
 }//end :: outplus_dump_sector_text
 
-void outplus_dump_text(OUTPLUS_SECTOR *sector) 
+int outplus_dump_text(OUTPLUS_SECTOR *sector) 
 {
 
-    outplus_dump_sector_text(sector, 0);
+    return outplus_dump_sector_text(sector, 0);
+
 
 }//end :: outplus_dump_text
 
 //************** JSON OUTPUT
 
-void outplus_dump_sector_json(OUTPLUS_SECTOR *sector, unsigned int depth)
+int outplus_dump_sector_json(OUTPLUS_SECTOR *sector, unsigned int depth)
 {
 
     OUTPLUS_SECTOR *current = sector;
 
-    char *tabs = outplus_create_tabs((depth+1));
+    int rv = OUTPLUS_E_OK;
+    char *tabs = NULL;
+    rv = outplus_create_tabs(tabs, (depth+1));
+
+    if (rv != OUTPLUS_E_OK) return rv;
 
     while (current != NULL)
     {
@@ -224,23 +239,29 @@ void outplus_dump_sector_json(OUTPLUS_SECTOR *sector, unsigned int depth)
 
     free(tabs);
 
+    return OUTPLUS_E_OK;
+
 }//end :: outplus_dump_sector_json
 
-void outplus_dump_json(OUTPLUS_SECTOR *sector)
+int outplus_dump_json(OUTPLUS_SECTOR *sector)
 {
+
+    int rv = OUTPLUS_E_OK;
 
     printf("{\n");
 
-    outplus_dump_sector_json(sector, 0);
+    rv = outplus_dump_sector_json(sector, 0);
 
     printf("}\n");
+
+    return rv;
 
 }//end :: outplus_dump_json
 
 
 //************** CSV OUTPUT
 
-void outplus_dump_sector_csv(OUTPLUS_SECTOR *sector, unsigned int depth)
+int outplus_dump_sector_csv(OUTPLUS_SECTOR *sector, unsigned int depth)
 {
     OUTPLUS_SECTOR *current = sector;
 
@@ -260,12 +281,15 @@ void outplus_dump_sector_csv(OUTPLUS_SECTOR *sector, unsigned int depth)
 
         current = current->next;
     }//end :: while
+
+    return OUTPLUS_E_OK;
+
 }//end :: outplus_dump_sector_csv
 
-void outplus_dump_csv(OUTPLUS_SECTOR *sector)
+int outplus_dump_csv(OUTPLUS_SECTOR *sector)
 {
 
-    outplus_dump_sector_csv(sector, 0);
+    return outplus_dump_sector_csv(sector, 0);
 
 }//end :: outplus_dump_csv
 
@@ -286,11 +310,12 @@ void outplus_html_print_footer()
 
 }//end :: outplus_html_print_footer
 
-void outplus_dump_sector_html(OUTPLUS_SECTOR *sector, unsigned int depth)
+int outplus_dump_sector_html(OUTPLUS_SECTOR *sector, unsigned int depth)
 {
 
     OUTPLUS_SECTOR *current = sector;
 
+    int rv = OUTPLUS_E_OK;
     unsigned short int header_type;
     unsigned int row_count;
     char css_class[4];
@@ -328,22 +353,31 @@ void outplus_dump_sector_html(OUTPLUS_SECTOR *sector, unsigned int depth)
 
         printf("\t</dl>\n");
 
-        if (current->child != NULL) outplus_dump_sector_html(current->child, (depth+1)); // Print child by recursion
+        if (current->child != NULL) {
+            rv = outplus_dump_sector_html(current->child, (depth+1));
+            if (rv != OUTPLUS_E_OK) return rv; 
+        }//end :: if
 
         current = current->next;
+
     }//end :: while
 
+    return rv;
 
 }//end :: outplus_dump_sector_html
 
-void outplus_dump_html(OUTPLUS_SECTOR *sector)
+int outplus_dump_html(OUTPLUS_SECTOR *sector)
 {
+
+    int rv = OUTPLUS_E_OK;
 
     outplus_html_print_header();
 
-    outplus_dump_sector_html(sector, 0);
+    rv = outplus_dump_sector_html(sector, 0);
 
     outplus_html_print_footer();
+
+    return rv;
 
 }//end :: outplus_dump_html
 
@@ -363,12 +397,16 @@ void outplus_xml_print_footer()
 
 }//end :: outplus_xml_print_footer
 
-void outplus_dump_sector_xml(OUTPLUS_SECTOR *sector, unsigned int depth)
+int outplus_dump_sector_xml(OUTPLUS_SECTOR *sector, unsigned int depth)
 {
 
     OUTPLUS_SECTOR *current = sector;
 
-    char *tabs = outplus_create_tabs((depth+1));
+    int rv = OUTPLUS_E_OK;
+    char *tabs = NULL;
+    rv = outplus_create_tabs(tabs, (depth+1));
+
+    if (rv != OUTPLUS_E_OK) return rv;
 
     while (NULL != current) {
 
@@ -390,7 +428,10 @@ void outplus_dump_sector_xml(OUTPLUS_SECTOR *sector, unsigned int depth)
         }//end :: while
 
 
-        if (current->child != NULL) outplus_dump_sector_xml(current->child, (depth+1)); // Print child by recursion
+        if (current->child != NULL) {
+            rv = outplus_dump_sector_xml(current->child, (depth+1)); 
+            if (rv != OUTPLUS_E_OK) return rv;
+        }//end :: if
 
         printf("%s</%s>\n", tabs, outplus_slug(current->title));
 
@@ -399,24 +440,29 @@ void outplus_dump_sector_xml(OUTPLUS_SECTOR *sector, unsigned int depth)
 
     free(tabs); // cleanup!
 
+    return rv;
+
 }//end :: outplus_dump_sector_xml
 
-void outplus_dump_xml(OUTPLUS_SECTOR *sector)
+int outplus_dump_xml(OUTPLUS_SECTOR *sector)
 {
 
+    int rv = OUTPLUS_E_OK;
 
     outplus_xml_print_header();
 
-    outplus_dump_sector_xml(sector, 0);
+    rv = outplus_dump_sector_xml(sector, 0);
 
     outplus_xml_print_footer();
+
+    return rv;
 
 }//end :: outplus_dump_xml
 
 
 //************** UTIL FUNCTIONS
 
-void outplus_parse_format(const char *optarg)
+int outplus_parse_format(const char *optarg)
 {
 
     if (! strcmp(optarg, "text"))
@@ -428,35 +474,41 @@ void outplus_parse_format(const char *optarg)
     else if (! strcmp(optarg, "csv"))
         outplus_format = OUTPLUS_FORMAT_CSV;
     else if (! strcmp(optarg, "html"))
-        outplus_format = OUTPLUS_FORMAT_OUTPLUS_HTML;
+        outplus_format = OUTPLUS_FORMAT_HTML;
     else
-        EXIT_ERROR("invalid outplus_format option");
+        return OUTPLUS_E_INVALID_FORMAT;
+
+    return OUTPLUS_E_OK;
 
 }//end :: outplus_parse_format
 
-void outplus_dump(OUTPLUS_SECTOR *sector) 
+int outplus_dump(OUTPLUS_SECTOR *sector) 
 {
+
+    int rv = OUTPLUS_E_OK;
 
     switch (outplus_format)
     {
         case OUTPLUS_FORMAT_XML:
-            outplus_dump_xml(sector);
+            rv = outplus_dump_xml(sector);
             break;
         case OUTPLUS_FORMAT_CSV:
-            outplus_dump_csv(sector);
+            rv = outplus_dump_csv(sector);
             break;
         case OUTPLUS_FORMAT_JSON:
-            outplus_dump_json(sector);
+            rv = outplus_dump_json(sector);
             break;
-        case OUTPLUS_FORMAT_OUTPLUS_HTML:
-            outplus_dump_html(sector);
+        case OUTPLUS_FORMAT_HTML:
+            rv = outplus_dump_html(sector);
             break;
         case OUTPLUS_FORMAT_TEXT:
         default:
-            outplus_dump_text(sector);
+            rv = outplus_dump_text(sector);
     }//end :: switch
 
     outplus_free_output(sector);
+
+    return rv;
 
 }//end :: outplus_dump
 
@@ -493,23 +545,25 @@ void outplus_free_output(OUTPLUS_SECTOR *sector)
 
 }//end :: outplus_free_output
 
-char * outplus_create_tabs(unsigned int count)
+int outplus_create_tabs(char *tabs, unsigned int count)
 {
 
-    char *tabs;
+    unsigned int i;
 
     if (count > 0)
     {
-        tabs = xmalloc(sizeof(char)*count);
+        tabs = malloc(sizeof(char)*count);
     } else {
-        tabs = xmalloc(sizeof(char));
+        tabs = malloc(sizeof(char));
     }
+
+    if (tabs == NULL) return OUTPLUS_E_ALLOCATION_FAILURE;
 
     tabs[0] = '\0';
 
-    for (unsigned int i = 0; i<count; i++) tabs[i] = '\t';
+    for (i=0; i<count; i++) tabs[i] = '\t';
 
-    return tabs;
+    return OUTPLUS_E_OK;
 
 }//end :: outplus_create_tabs
 

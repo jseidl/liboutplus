@@ -23,9 +23,7 @@ OUTPLUS_SECTOR *outSectorSections = outplus_add_sector("Samples", &output);
 Add text to it!
 
 ```c
-char s[OUTPLUS_VALUE_MAX_LEN]; // string holder
-char strName = "Sample value" // example text
-snprintf(s, OUTPLUS_VALUE_MAX_LEN, "%s", strName);
+char s[OUTPLUS_VALUE_MAX_LEN] = "Sample value"; // example text
 outplus_add_line("Sample item", s, outSectorSections);
 ```
 
@@ -39,8 +37,7 @@ OUTPLUS_SECTOR *outSubSectSection = outplus_add_child_sector("Section", &outSect
 And add more lines to it
 
 ```c
-char strName = "Another sample value" // example text
-snprintf(s, OUTPLUS_VALUE_MAX_LEN, "%s", strName);
+char s[OUTPLUS_VALUE_MAX_LEN] = "Another sample value"; // example text
 outplus_add_line("Another sample item", s, outSubSectSection);
 ```
 
@@ -58,4 +55,4 @@ void outplus_dump_json(OUTPLUS_SECTOR *sector);
 
 ### TODO ###
 * Add file output (printf->outplus_output)
-
+* Add some more examples here
