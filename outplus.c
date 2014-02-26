@@ -222,7 +222,12 @@ int outplus_dump_sector_json(OUTPLUS_SECTOR *sector, unsigned int depth)
         {
 
             printf("%s\t\"%s\": \"%s\"", tabs, outplus_slug(current_line->key), current_line->value);
-            if (NULL != current_line->next) printf(",");
+
+            if (
+                (NULL != current_line->next) || 
+                (NULL == current_line->next && current->child != NULL)
+            ) printf(",");
+
             printf("\n");
             current_line = (OUTPLUS_LINE *) current_line->next;
 

@@ -21,12 +21,10 @@ Compiling your code with outplus
  gcc -Wall -o your_program outplus.o your_program.c -I<path to lib outplus>
 ```
 
-
 How to use
 -------------
 
-Simple example:
-
+Example
 ```c
 #include <stdio.h>
 #include "outplus.h"
@@ -50,6 +48,8 @@ int main(int argc, char *argv[])
 
     // Add text to it!
     outplus_add_line("Key One Sector One", "Value One Sector One", output1);
+    outplus_add_line("Key One Sector Two", "Value One Sector Two", output1);
+    outplus_add_line("Key One Sector Three", "Value One Sector Three", output1);
     if (rv != OUTPLUS_E_OK) return 1;
 
     // Add a second sector
@@ -61,7 +61,6 @@ int main(int argc, char *argv[])
     outplus_add_line("Key One Sector Two", "Value One Sector Two", output2);
     if (rv != OUTPLUS_E_OK) return 1;
 
-
     // You can also add child sector to sector two
     OUTPLUS_SECTOR *output2c = NULL;
     rv = outplus_add_child_sector("Sector Two One", &output2c, &output2);
@@ -69,6 +68,30 @@ int main(int argc, char *argv[])
 
     // Add lines to child sector
     rv = outplus_add_line("Key One Sector Two Sub-Sector One", "Value One Sector Two Sub-Sector One", output2c);
+    if (rv != OUTPLUS_E_OK) return 1;
+    rv = outplus_add_line("Key Two Sector Two Sub-Sector One", "Value Two Sector Two Sub-Sector One", output2c);
+    if (rv != OUTPLUS_E_OK) return 1;
+
+    // Add another child sector to sector two
+    OUTPLUS_SECTOR *output2c2 = NULL;
+    rv = outplus_add_child_sector("Sector Two Two", &output2c2, &output2);
+    if (rv != OUTPLUS_E_OK) return 1;
+
+    // Add lines to child sector
+    rv = outplus_add_line("Key One Sector Two Sub-Sector Two", "Value One Sector Two Sub-Sector Two", output2c2);
+    if (rv != OUTPLUS_E_OK) return 1;
+    rv = outplus_add_line("Key Two Sector Two Sub-Sector Two", "Value Two Sector Two Sub-Sector Two", output2c2);
+    if (rv != OUTPLUS_E_OK) return 1;
+    rv = outplus_add_line("Key Two Sector Two Sub-Sector Three", "Value Two Sector Two Sub-Sector Three", output2c2);
+    if (rv != OUTPLUS_E_OK) return 1;
+
+    // Final Third Sector
+    OUTPLUS_SECTOR *output3 = NULL;
+    rv = outplus_add_sector("Sector Three", &output3, &output);
+    if (rv != OUTPLUS_E_OK) return 1;  
+
+    // Add text to the final sector
+    outplus_add_line("Key One Sector Three", "Value One Sector Three", output3);
     if (rv != OUTPLUS_E_OK) return 1;
 
     // Finally use the appropriate functions to dump your output into the desired format
@@ -92,7 +115,6 @@ int main(int argc, char *argv[])
 
 }//end :: main
 ```
-
 Output Examples
 ----------
 
@@ -100,13 +122,23 @@ Output Examples
 ```
 Sector One
     Key One Sector One: Value One Sector One
+    Key One Sector Two: Value One Sector Two
+    Key One Sector Three: Value One Sector Three
 
 Sector Two
     Key One Sector Two: Value One Sector Two
 
     Sector Two One
         Key One Sector Two Sub-Sector One: Value One Sector Two Sub-Sector One
+        Key Two Sector Two Sub-Sector One: Value Two Sector Two Sub-Sector One
 
+    Sector Two Two
+        Key One Sector Two Sub-Sector Two: Value One Sector Two Sub-Sector Two
+        Key Two Sector Two Sub-Sector Two: Value Two Sector Two Sub-Sector Two
+        Key Two Sector Two Sub-Sector Three: Value Two Sector Two Sub-Sector Three
+
+Sector Three
+    Key One Sector Three: Value One Sector Three
 ```
 
 **XML**
@@ -115,14 +147,25 @@ Sector Two
 <output>
     <sector_one title="Sector One">
         <key_one_sector_one>Value One Sector One</key_one_sector_one>
+        <key_one_sector_two>Value One Sector Two</key_one_sector_two>
+        <key_one_sector_three>Value One Sector Three</key_one_sector_three>
     </sector_one>
     <sector_two title="Sector Two">
         <key_one_sector_two>Value One Sector Two</key_one_sector_two>
         <sector_two_one title="Sector Two One">
             <key_one_sector_two_sub_sector_one>Value One Sector Two Sub-Sector One</key_one_sector_two_sub_sector_one>
+            <key_two_sector_two_sub_sector_one>Value Two Sector Two Sub-Sector One</key_two_sector_two_sub_sector_one>
         </sector_two_one>
+        <sector_two_two title="Sector Two Two">
+            <key_one_sector_two_sub_sector_two>Value One Sector Two Sub-Sector Two</key_one_sector_two_sub_sector_two>
+            <key_two_sector_two_sub_sector_two>Value Two Sector Two Sub-Sector Two</key_two_sector_two_sub_sector_two>
+            <key_two_sector_two_sub_sector_three>Value Two Sector Two Sub-Sector Three</key_two_sector_two_sub_sector_three>
+        </sector_two_two>
     </sector_two>
-</output>
+    <sector_three title="Sector Three">
+        <key_one_sector_three>Value One Sector Three</key_one_sector_three>
+    </sector_three>
+</output>  
 ```
 
 **JSON**
@@ -130,15 +173,28 @@ Sector Two
 {
     "sector_one":
     {
-        "key_one_sector_one": "Value One Sector One"
+        "key_one_sector_one": "Value One Sector One",
+        "key_one_sector_two": "Value One Sector Two",
+        "key_one_sector_three": "Value One Sector Three"
     },
     "sector_two":
     {
-        "key_one_sector_two": "Value One Sector Two"
+        "key_one_sector_two": "Value One Sector Two",
         "sector_two_one":
         {
-            "key_one_sector_two_sub_sector_one": "Value One Sector Two Sub-Sector One"
+            "key_one_sector_two_sub_sector_one": "Value One Sector Two Sub-Sector One",
+            "key_two_sector_two_sub_sector_one": "Value Two Sector Two Sub-Sector One"
+        },
+        "sector_two_two":
+        {
+            "key_one_sector_two_sub_sector_two": "Value One Sector Two Sub-Sector Two",
+            "key_two_sector_two_sub_sector_two": "Value Two Sector Two Sub-Sector Two",
+            "key_two_sector_two_sub_sector_three": "Value Two Sector Two Sub-Sector Three"
         }
+    },
+    "sector_three":
+    {
+        "key_one_sector_three": "Value One Sector Three"
     }
 }
 ```
@@ -146,8 +202,15 @@ Sector Two
 **CSV**
 ```csv
 "Sector One","Key One Sector One","Value One Sector One"
+"Sector One","Key One Sector Two","Value One Sector Two"
+"Sector One","Key One Sector Three","Value One Sector Three"
 "Sector Two","Key One Sector Two","Value One Sector Two"
 "Sector Two One","Key One Sector Two Sub-Sector One","Value One Sector Two Sub-Sector One"
+"Sector Two One","Key Two Sector Two Sub-Sector One","Value Two Sector Two Sub-Sector One"
+"Sector Two Two","Key One Sector Two Sub-Sector Two","Value One Sector Two Sub-Sector Two"
+"Sector Two Two","Key Two Sector Two Sub-Sector Two","Value Two Sector Two Sub-Sector Two"
+"Sector Two Two","Key Two Sector Two Sub-Sector Three","Value Two Sector Two Sub-Sector Three"
+"Sector Three","Key One Sector Three","Value One Sector Three"
 ```
 
 **HTML**
@@ -173,6 +236,10 @@ Sector Two
     <dl>
         <dt class="even">Key One Sector One</dt>
         <dd class="even">Value One Sector One</dd>
+        <dt class="odd">Key One Sector Two</dt>
+        <dd class="odd">Value One Sector Two</dd>
+        <dt class="even">Key One Sector Three</dt>
+        <dd class="even">Value One Sector Three</dd>
     </dl>
     <h2>Sector Two</h2>
     <dl>
@@ -183,6 +250,22 @@ Sector Two
     <dl>
         <dt class="even">Key One Sector Two Sub-Sector One</dt>
         <dd class="even">Value One Sector Two Sub-Sector One</dd>
+        <dt class="odd">Key Two Sector Two Sub-Sector One</dt>
+        <dd class="odd">Value Two Sector Two Sub-Sector One</dd>
+    </dl>
+    <h3>Sector Two Two</h3>
+    <dl>
+        <dt class="even">Key One Sector Two Sub-Sector Two</dt>
+        <dd class="even">Value One Sector Two Sub-Sector Two</dd>
+        <dt class="odd">Key Two Sector Two Sub-Sector Two</dt>
+        <dd class="odd">Value Two Sector Two Sub-Sector Two</dd>
+        <dt class="even">Key Two Sector Two Sub-Sector Three</dt>
+        <dd class="even">Value Two Sector Two Sub-Sector Three</dd>
+    </dl>
+    <h2>Sector Three</h2>
+    <dl>
+        <dt class="even">Key One Sector Three</dt>
+        <dd class="even">Value One Sector Three</dd>
     </dl>
     </body>
 </html>
