@@ -29,60 +29,68 @@ Simple example:
 
 ```c
 #include <stdio.h>
-#include "outplus.c"
+#include "outplus.h"
 
-int rv = OUTPLUS_E_OK; // our return values
-OUTPLUS_SECTOR *output = NULL; // Declare your global output sector
+int main(int argc, char *argv[])
+{
 
-// Create a output sector and append to global output. Declare and initialize the sector
-
-OUTPLUS_SECTOR *output1 = NULL;
-rv = outplus_add_sector("Sector One", &output1, &output);
-if (rv != OUTPLUS_E_OK) return 1; // outplus functions must return OUTPLUS_E_OK or they failed
-
-// Add text to it!
-
-outplus_add_line("Key One Sector One", "Value One Sector One", output1);
-if (rv != OUTPLUS_E_OK) return 1;
-
-// Add a second sector
-
-OUTPLUS_SECTOR *output2 = NULL;
-rv = outplus_add_sector("Sector Two", &output2, &output);
-if (rv != OUTPLUS_E_OK) return 1; 
-
-// Add text to the second sector
-
-outplus_add_line("Key One Sector Two", "Value One Sector Two", output2);
-if (rv != OUTPLUS_E_OK) return 1;
+    if (argc != 2) {
+        printf("Usage %s <output type>", argv[0]);
+        return 1;
+    }//end :: if
 
 
-// You can also add child sector to sector two
+    int rv = OUTPLUS_E_OK; // our return values
+    OUTPLUS_SECTOR *output = NULL; // Declare your global output sector
 
-OUTPLUS_SECTOR *output2c = NULL;
-rv = outplus_add_child_sector("Sector Two One", &output2c, &output2);
-if (rv != OUTPLUS_E_OK) return 1;
+    // Create a output sector and append to global output. Declare and initialize the sector
+    OUTPLUS_SECTOR *output1 = NULL;
+    rv = outplus_add_sector("Sector One", &output1, &output);
+    if (rv != OUTPLUS_E_OK) return 1; // outplus functions must return OUTPLUS_E_OK or they failed
 
-// Add lines to child sector
-rv = outplus_add_line("Key One Sector Two Sub-Sector One", "Value One Sector Two Sub-Sector One", output2c);
-if (rv != OUTPLUS_E_OK) return 1;
+    // Add text to it!
+    outplus_add_line("Key One Sector One", "Value One Sector One", output1);
+    if (rv != OUTPLUS_E_OK) return 1;
 
-// Finally use the appropriate functions to dump your output into the desired format
+    // Add a second sector
+    OUTPLUS_SECTOR *output2 = NULL;
+    rv = outplus_add_sector("Sector Two", &output2, &output);
+    if (rv != OUTPLUS_E_OK) return 1;  
 
-/* Directly calling a format dump
+    // Add text to the second sector
+    outplus_add_line("Key One Sector Two", "Value One Sector Two", output2);
+    if (rv != OUTPLUS_E_OK) return 1;
 
-    void outplus_dump_xml(output);
-    void outplus_dump_text(output);
-    void outplus_dump_csv(output);
-    void outplus_dump_html(output);
-    void outplus_dump_json(output);
 
-*/
+    // You can also add child sector to sector two
+    OUTPLUS_SECTOR *output2c = NULL;
+    rv = outplus_add_child_sector("Sector Two One", &output2c, &output2);
+    if (rv != OUTPLUS_E_OK) return 1;
 
-// if using above, remember to call outplus_free(output);
+    // Add lines to child sector
+    rv = outplus_add_line("Key One Sector Two Sub-Sector One", "Value One Sector Two Sub-Sector One", output2c);
+    if (rv != OUTPLUS_E_OK) return 1;
 
-outplus_parse_format('xml')
-outplus_dump(output); // this will call outplus_free(output) for you
+    // Finally use the appropriate functions to dump your output into the desired format
+
+    /* Directly calling a format dump
+
+        void outplus_dump_xml(output);
+        void outplus_dump_text(output);
+        void outplus_dump_csv(output);
+        void outplus_dump_html(output);
+        void outplus_dump_json(output);
+
+    */
+
+    // if using above, remember to call outplus_free(output);
+
+    outplus_parse_format(argv[1]);
+    outplus_dump(output); // this will call outplus_free(output) for you
+
+    return 0;
+
+}//end :: main
 ```
 
 ### TODO ###
