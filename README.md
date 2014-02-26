@@ -47,11 +47,11 @@ outplus_add_line("Another sample item", s, outSubSectSection);
 Finally use the appropriate functions to dump your output into the desired format
 
 ```c
-void outplus_dump_sector_xml(OUTPLUS_SECTOR *sector, unsigned int depth);
-void outplus_dump_sector_text(OUTPLUS_SECTOR *sector, unsigned int depth);
-void outplus_dump_sector_csv(OUTPLUS_SECTOR *sector, unsigned int depth);
-void outplus_dump_sector_html(OUTPLUS_SECTOR *sector, unsigned int depth);
-void outplus_dump_sector_json(OUTPLUS_SECTOR *sector, unsigned int depth);
+void outplus_dump_xml(OUTPLUS_SECTOR *sector);
+void outplus_dump_text(OUTPLUS_SECTOR *sector);
+void outplus_dump_csv(OUTPLUS_SECTOR *sector);
+void outplus_dump_html(OUTPLUS_SECTOR *sector);
+void outplus_dump_json(OUTPLUS_SECTOR *sector);
 ```
 
 
