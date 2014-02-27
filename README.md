@@ -11,7 +11,14 @@ C library for structured output in many formats as text, csv, json, xml, html et
 Compiling
 -------------
 
-Building the lib
+Building through the Makefile
+
+```
+make clean all
+sudo make install
+```
+
+Building the lib manually
 
 ```
 gcc -c outplus.c -o outplus.o
@@ -275,4 +282,5 @@ Sector Three
 
 ### TODO ###
 * Add file output (printf->outplus_output)
-* Add some more examples here
+* Add tests to travis-ci
+* Add translation table to non-A-z chars to slug
