@@ -145,7 +145,7 @@ Sector Three
 
 **XML**
 ```xml
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <output>
     <sector_one title="Sector One">
         <key_one_sector_one>Value One Sector One</key_one_sector_one>

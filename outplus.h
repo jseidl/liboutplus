@@ -49,7 +49,7 @@
 #endif
 
 #ifndef OUTPLUS_XML_HEAD
-#define OUTPLUS_XML_HEAD "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n<output>\n"
+#define OUTPLUS_XML_HEAD "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<output>\n"
 #endif
 
 #ifndef OUTPLUS_XML_FOOTER
