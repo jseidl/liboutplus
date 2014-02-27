@@ -5,8 +5,10 @@ C library for structured output in many formats as text, csv, json, xml, html et
 
 [![Build Status](https://travis-ci.org/jseidl/liboutplus.png)](https://travis-ci.org/jseidl/liboutplus)
 
+*THIS IS BETA SOFTWARE! NOT READY FOR PRODUCTION USE! (stable release coming soon!)*
 
-Compinling
+
+Compiling
 -------------
 
 Building the lib
