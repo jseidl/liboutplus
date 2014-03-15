@@ -41,7 +41,7 @@
 #endif
 
 #ifndef OUTPLUS_HTML_HEAD 
-#define OUTPLUS_HTML_HEAD "<!DOCTYPE HTML>\n<html>\n\t<head>\n\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n\t\t<title>" OUTPLUS_HTML_TITLE " Output</title>\n\t\t<style type=\"text/css\">\n\t\t\tbody { font-family: Sans, Arial; }\n\t\t\th1 { padding-top: 11px; padding-bottom: 11px; padding-left: 70px; }\n\t\t\th2,h3,h4,h5 { clear: both; float: none; margin-bottom: 0px; }\n\t\t\tdl { margin-bottom: 20px; float: left; }\n\t\t\t.even { background-color: #EEE; }\n\t\t\tdt { padding: 2px 5px; float: left; margin-right: 0px; clear: left; width: 240px; font-weight: bold; margin-bottom: 5px; font-weight: bold; }\n\t\t\tdd { width: 360px; margin-left: 0px; padding: 2px 5px; float: left; }\n\t\t</style>\n\t</head>\n\t<body>\n"
+#define OUTPLUS_HTML_HEAD "<!DOCTYPE HTML>\n<html>\n\t<head>\n\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n\t\t<title>" OUTPLUS_HTML_TITLE "</title>\n\t\t<style type=\"text/css\">\n\t\t\tbody { font-family: Sans, Arial; }\n\t\t\th1 { padding-top: 11px; padding-bottom: 11px; padding-left: 70px; }\n\t\t\th2,h3,h4,h5 { clear: both; float: none; margin-bottom: 0px; }\n\t\t\tdl { margin-bottom: 20px; float: left; }\n\t\t\t.even { background-color: #EEE; }\n\t\t\tdt { padding: 2px 5px; float: left; margin-right: 0px; clear: left; width: 240px; font-weight: bold; margin-bottom: 5px; font-weight: bold; }\n\t\t\tdd { width: 360px; margin-left: 0px; padding: 2px 5px; float: left; }\n\t\t</style>\n\t</head>\n\t<body>\n"
 #endif
 
 #ifndef OUTPLUS_HTML_FOOTER

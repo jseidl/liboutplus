@@ -228,7 +228,7 @@ Sector Three
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Outplus Output Output</title>
+        <title>Outplus Output</title>
         <style type="text/css">
             body { font-family: Sans, Arial; }
             h1 { padding-top: 11px; padding-bottom: 11px; padding-left: 70px; }
@@ -284,3 +284,4 @@ Sector Three
 * Add file output (printf->outplus_output)
 * Add tests to travis-ci
 * Add translation table to non-A-z chars to slug
+* Create better tests
